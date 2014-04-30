@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.example" versionCode="10" version = "1.0.0" >
+
+    <!-- General App info and setup -->
+    <name>Gym Tracker</name>
+
+    <description>
+        An test application for Rejuvenate Productions
+    </description>
+
+    <author href="https://www.cookridgehall.co.uk" email="reception@cookridgehall.com">
+        Cookridge Hall Health & Fitness
+    </author>
+
+    <icon src="icon.png" />
+    <gap:splash src="splash.png" />
+
+    <!-- Platforms to build into -->
+    <gap:platform name="android" />
+
+    <!-- Preferences -->
+    <preference name="fullscreen" value="true" />
+
+    <!-- Plugins -->
+    <gap:plugin name="org.apache.cordova.vibration" version="0.3.7" />
+    <gap:plugin name="hu.dpal.phonegap.plugins.spinnerdialog" version="0.1.5" />
+
+</widget>
