@@ -3,14 +3,25 @@
 <head>
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 </head>
 <body>
 
 <div class="container">
 	<h1>Workout Page</h1>
-
+    <p>Click below to start a new workout</p>
+	
+    <a href="#" class="toggle-workout">Start Workout</a>
 </div>
 
+<script>
+document.addEventListener("deviceready", onDeviceReady, false);
 
+// PhoneGap is ready
+function onDeviceReady() {
+	var db = window.openDatabase("gym_tracker", "1.0", "Gym Tracker", 1000000);
+}
+
+</script>
 </body>
 </html>

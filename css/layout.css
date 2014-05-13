@@ -1,4 +1,53 @@
 /* CSS Document */
+body {
+	background: #F7F7F7;	
+}
+
+*, *:before, *:after { box-sizing: border-box; }
+*:first-child { margin-top: 0; }
+*:last-child { margin-bottom: 0; }
+
 .container {
 	padding: 20px;
+	max-width: 500px;
+	margin: 0 auto;
+	border: 1px solid #000;
+}
+
+#workouts th {
+	background: #464647;	
+	color: #FFF;
+}
+
+#workouts th, #workouts td {
+	padding : 10px;	
+	text-align: left;
+}
+
+#fixed-footer {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#fixed-footer a {
+	padding: 10px;
+	width: 50%;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+	color: #464646;
+	background: #FFF;
+}
+
+.button {
+	padding: 10px;
+	color: #FFF;
+	background: #449751;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 3px;	
+	display: block;
+	margin: 0 0 10px;
 }
