@@ -8,12 +8,12 @@
 
 <div class="container">
 	
-	
-    
-    <div id="timer" class="running">
+    <div id="timer" class="paused">
     	<img src="graphics/logo.png" width="200" class="logo" />
         
         <div class="text-align-center">
+            <p>Get started with your workout by clicking the button below, once you have completed your workout simply click the button again to save your efforts!</p>
+
             <div id="counter">
                 <div id="hours" class="unit"></div>
                 <div class="divider">:</div>
@@ -43,7 +43,7 @@
 </div>
 
 <div id="fixed-footer">
-	<a href="#" style="border-right:1px solid #F0F0F0;"><i class="icon-stopwatch"></i></a>
+	<a href="#" class="selected"><i class="icon-stopwatch"></i></a>
     <a href="#"><i class="icon-chart"></i></a>
 </div>
 
@@ -80,6 +80,9 @@ app.webdb.startSession = function(tx, data) {
 		var addedOn = new Date();
 		tx.executeSql("INSERT INTO workouts(start_time) VALUES (?)", [new Date()], app.webdb.loadData, app.webdb.onError);
 	});
+	
+	$('#timer').removeClass('paused').addClass('running');
+	$('.workout-toggle').text('Stop Workout');
 };
 
 app.webdb.endSession = function(tx, data) {
@@ -88,6 +91,9 @@ app.webdb.endSession = function(tx, data) {
 		var addedOn = new Date();
 		tx.executeSql("UPDATE workouts SET end_time=?", [new Date()], app.webdb.loadData, app.webdb.onError);
 	});
+	
+	$('#timer').removeClass('running').addClass('paused');
+	$('.workout-toggle').text('Start Workout');
 };
 
 app.webdb.sessionToggle = function(tx, data) {

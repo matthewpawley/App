@@ -60,6 +60,22 @@
 	content: "\e606";
 }
 
+/********************************
+** Buttons
+********************************/
+
+.button {
+	padding: 10px;
+	color: #FFF;
+	background: #449751;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 3px;	
+	display: block;
+	margin: 0 0 10px;
+	text-decoration: none;
+}
+
 
 /********************************
 ** Generic
@@ -76,9 +92,7 @@ body {
 
 .container {
 	padding: 20px;
-	max-width: 500px;
 	margin: 0 auto;
-	border: 1px solid #000;
 }
 
 .hide { display: none; }
@@ -99,6 +113,8 @@ body {
     line-height: 1em;
     height: 1em;
 }
+
+.workout-toggle { margin: 20px 0 0 0; }
 
 .divider {
     display: inline-block;
@@ -203,18 +219,7 @@ body {
 	font-size: 30px;
 }
 
-/********************************
-** Buttons
-********************************/
-
-.button {
-	padding: 10px;
-	color: #FFF;
-	background: #449751;
-	text-align: center;
-	font-weight: bold;
-	border-radius: 3px;	
-	display: block;
-	margin: 0 0 10px;
-	text-decoration: none;
+#fixed-footer a.selected {
+	background: #F0F0F0;
+	box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.19);
 }
