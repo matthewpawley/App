@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="css/layout.css" type="text/css" rel="stylesheet" />
 <link href="css/animate.css" type="text/css" rel="stylesheet" />
 <link href="css/royalslider.css" type="text/css" rel="stylesheet" />
+<link href="css/layout.css" type="text/css" rel="stylesheet" />
+
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 </head>
 <body>
@@ -87,7 +88,7 @@ $(function(){
 	  });
 	}
 	
-	$('.workout-toggle').on('click', function(e){
+	$('.workout-toggle').on('mousedown touchstart', function(e){
 		e.preventDefault();
 		app.webdb.checkRunningSession();
 	});
