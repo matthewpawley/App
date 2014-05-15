@@ -2,13 +2,15 @@
 <html>
 <head>
 <link href="css/layout.css" type="text/css" rel="stylesheet" />
+<link href="css/animate.css" type="text/css" rel="stylesheet" />
+<link href="css/royalslider.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 </head>
 <body>
 
-<div class="container">
+<div class="container royalSlider">
 	
-    <div id="timer" class="paused">
+    <div id="timer" class="page selected paused">
     	<img src="graphics/logo.png" width="200" class="logo" />
         
         <div class="text-align-center">
@@ -28,7 +30,7 @@
     	<a class="workout-toggle button" href="workouts.html">Start Workout</a>
     </div>
     
-    <div id="workouts" class="hide">
+    <div id="workouts" class="page">
         <table id="workouts" width="100%" border="0" cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -43,95 +45,113 @@
 </div>
 
 <div id="fixed-footer">
-	<a href="#" class="selected"><i class="icon-stopwatch"></i></a>
-    <a href="#"><i class="icon-chart"></i></a>
+	<a href="#timer" class="selected link"><i class="icon-stopwatch"></i></a>
+    <a href="#workouts" class="link"><i class="icon-chart"></i></a>
 </div>
 
+<script type="text/javascript" src="js/jquery.royalslider.min.js"></script>
 <script>
 
-var app = {};
-app.webdb = {};
-app.webdb.db = null;
+$(function(){
+	
+	$(".royalSlider").royalSlider();
+	
+	$(document).on('click touchstart', '.link', function(e){
+		e.preventDefault();
+		var $this = $(this),
+			$target = $($this.attr('href'));
+			
+			
+		$('#fixed-footer a').removeClass('selected');
+		$('#fixed-footer a[href=' + $this.attr('href') + ']').addClass('selected');
+		
+	});
 
-app.webdb.open = function() {
-  var dbSize = 5 * 1024 * 1024; // 5MB
-  app.webdb.db = openDatabase("gym-tracker", "1", "Gym Tracker", dbSize);
-}
-
-app.webdb.onError = function(tx, e) {
-  alert("There has been an error: " + e.message);
-}
-
-app.webdb.createTable = function() {
-  var db = app.webdb.db;
-  db.transaction(function(tx){
-    tx.executeSql("CREATE TABLE IF NOT EXISTS workouts(ID INTEGER PRIMARY KEY ASC, start_time DATETIME, end_time DATETIME)", []);
-  });
-}
-
-$('.workout-toggle').on('click', function(e){
-	e.preventDefault();
-	app.webdb.checkRunningSession();
-});
-
-app.webdb.startSession = function(tx, data) {
-	var db = app.webdb.db;
-	db.transaction(function(tx){
-		var addedOn = new Date();
-		tx.executeSql("INSERT INTO workouts(start_time) VALUES (?)", [new Date()], app.webdb.loadData, app.webdb.onError);
+	var app = {};
+	app.webdb = {};
+	app.webdb.db = null;
+	
+	app.webdb.open = function() {
+	  var dbSize = 5 * 1024 * 1024; // 5MB
+	  app.webdb.db = openDatabase("gym-tracker", "1", "Gym Tracker", dbSize);
+	}
+	
+	app.webdb.onError = function(tx, e) {
+	  alert("There has been an error: " + e.message);
+	}
+	
+	app.webdb.createTable = function() {
+	  var db = app.webdb.db;
+	  db.transaction(function(tx){
+		tx.executeSql("CREATE TABLE IF NOT EXISTS workouts(ID INTEGER PRIMARY KEY ASC, start_time DATETIME, end_time DATETIME)", []);
+	  });
+	}
+	
+	$('.workout-toggle').on('click', function(e){
+		e.preventDefault();
+		app.webdb.checkRunningSession();
 	});
 	
-	$('#timer').removeClass('paused').addClass('running');
-	$('.workout-toggle').text('Stop Workout');
-};
-
-app.webdb.endSession = function(tx, data) {
-	var db = app.webdb.db;
-	db.transaction(function(tx){
-		var addedOn = new Date();
-		tx.executeSql("UPDATE workouts SET end_time=?", [new Date()], app.webdb.loadData, app.webdb.onError);
-	});
-	
-	$('#timer').removeClass('running').addClass('paused');
-	$('.workout-toggle').text('Start Workout');
-};
-
-app.webdb.sessionToggle = function(tx, data) {
-	(data.rows.length > 0)
-		? app.webdb.endSession()
-		: app.webdb.startSession()
-};
-
-app.webdb.checkRunningSession = function(tx, r) {
-	var db = app.webdb.db;
-	db.transaction(function(tx) {
-		tx.executeSql("SELECT id FROM workouts WHERE end_time IS NULL", [], app.webdb.sessionToggle, app.webdb.onError);
-	});
-};
-
-app.webdb.loadData = function(tx, r) {
-	var db = app.webdb.db;
-	db.transaction(function(tx) {
-		tx.executeSql("SELECT * FROM workouts ORDER BY start_time DESC", [], app.webdb.output, app.webdb.onError);
-	});
-};
-
-app.webdb.output = function(tx, data) {
-	
-	html = '';
-	for (var i=0; i < data.rows.length; i++) {
-		var item = data.rows.item(i);
-		html += '<tr>' +
-			'<td>' + item.start_time + '</td>' +
-			'<td>' + (item.end_time ? item.end_time : 'In progress') + '</td>' +
-		'</tr>';
+	app.webdb.startSession = function(tx, data) {
+		var db = app.webdb.db;
+		db.transaction(function(tx){
+			var addedOn = new Date();
+			tx.executeSql("INSERT INTO workouts(start_time) VALUES (?)", [new Date()], app.webdb.loadData, app.webdb.onError);
+		});
+		
+		$('#timer').removeClass('paused').addClass('running');
+		$('.workout-toggle').text('Stop Workout');
 	};
 	
-	$('#workouts').find('tbody').html(html);
-};
-
-app.webdb.open();
-app.webdb.createTable();
+	app.webdb.endSession = function(tx, data) {
+		var db = app.webdb.db;
+		db.transaction(function(tx){
+			var addedOn = new Date();
+			tx.executeSql("UPDATE workouts SET end_time=?", [new Date()], app.webdb.loadData, app.webdb.onError);
+		});
+		
+		$('#timer').removeClass('running').addClass('paused');
+		$('.workout-toggle').text('Start Workout');
+	};
+	
+	app.webdb.sessionToggle = function(tx, data) {
+		(data.rows.length > 0)
+			? app.webdb.endSession()
+			: app.webdb.startSession()
+	};
+	
+	app.webdb.checkRunningSession = function(tx, r) {
+		var db = app.webdb.db;
+		db.transaction(function(tx) {
+			tx.executeSql("SELECT id FROM workouts WHERE end_time IS NULL", [], app.webdb.sessionToggle, app.webdb.onError);
+		});
+	};
+	
+	app.webdb.loadData = function(tx, r) {
+		var db = app.webdb.db;
+		db.transaction(function(tx) {
+			tx.executeSql("SELECT * FROM workouts ORDER BY start_time DESC", [], app.webdb.output, app.webdb.onError);
+		});
+	};
+	
+	app.webdb.output = function(tx, data) {
+		
+		html = '';
+		for (var i=0; i < data.rows.length; i++) {
+			var item = data.rows.item(i);
+			html += '<tr>' +
+				'<td>' + item.start_time + '</td>' +
+				'<td>' + (item.end_time ? item.end_time : 'In progress') + '</td>' +
+			'</tr>';
+		};
+		
+		$('#workouts').find('tbody').html(html);
+	};
+	
+	app.webdb.open();
+	app.webdb.createTable();
+	
+});
 </script>
 
 
