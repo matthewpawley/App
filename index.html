@@ -28,7 +28,7 @@
             </div>
         </div>
     
-    	<a class="workout-toggle button" href="workouts.html">Start Workout</a>
+    	<a class="workout-toggle button" href="#">Start Workout</a>
     </div>
     
     <div id="workouts" class="page">
@@ -54,14 +54,27 @@
 <script>
 
 $(function(){
+		
+	var slider = $(".royalSlider").royalSlider({
 	
-	$(".royalSlider").royalSlider();
+	}).data('royalSlider');
+	
+	slider.ev.on('rsAfterSlideChange', function(event) {
+		var $slide = $(slider.currSlide.content.get(0)),
+			target = $slide.attr('id'),
+			$nav = $('#fixed-footer a[href=#' + target + ']');
+			
+		$('#fixed-footer a').removeClass('selected');
+		$nav.addClass('selected');
+	});
 	
 	$(document).on('click touchstart', '.link', function(e){
 		e.preventDefault();
 		var $this = $(this),
-			$target = $($this.attr('href'));
-			
+			$target = $($this.attr('href')).parent(),
+			index = $target.index();
+		
+		slider.goTo(index);
 			
 		$('#fixed-footer a').removeClass('selected');
 		$('#fixed-footer a[href=' + $this.attr('href') + ']').addClass('selected');

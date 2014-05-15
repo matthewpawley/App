@@ -103,6 +103,15 @@ body {
   height: 100vh;
 }
 
+.page {
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	bottom: 60px;
+	left: 0;
+	right: 0;
+}
+
 /********************************
 ** Workout Screen
 ********************************/
