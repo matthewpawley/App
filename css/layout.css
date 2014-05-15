@@ -1,6 +1,73 @@
-/* CSS Document */
+/********************************
+** Fonts / Icons
+********************************/
+
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('fonts/OpenSans-Light-webfont.eot');
+    src: url('fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/OpenSans-Light-webfont.woff') format('woff'),
+         url('fonts/OpenSans-Light-webfont.ttf') format('truetype'),
+         url('/fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+	font-family: 'icons';
+	src:url('fonts/icomoon.eot?-bbq449');
+	src:url('fonts/icomoon.eot?#iefix-bbq449') format('embedded-opentype'),
+		url('fonts/icomoon.woff?-bbq449') format('woff'),
+		url('fonts/icomoon.ttf?-bbq449') format('truetype'),
+		url('fonts/icomoon.svg?-bbq449#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-chart:before {
+	content: "\e600";
+}
+.icon-stopwatch:before {
+	content: "\e601";
+}
+.icon-phone:before {
+	content: "\e602";
+}
+.icon-arrow-left:before {
+	content: "\e603";
+}
+.icon-arrow-down:before {
+	content: "\e604";
+}
+.icon-arrow-up:before {
+	content: "\e605";
+}
+.icon-arrow-right:before {
+	content: "\e606";
+}
+
+
+/********************************
+** Generic
+********************************/
+
 body {
 	background: #F7F7F7;	
+	font-family: 'open_sanslight';
 }
 
 *, *:before, *:after { box-sizing: border-box; }
@@ -14,6 +81,96 @@ body {
 	border: 1px solid #000;
 }
 
+.hide { display: none; }
+.text-align-center { text-align: center; }
+
+/********************************
+** Workout Screen
+********************************/
+
+.logo {
+	display: block;
+	margin: 0 auto 20px;	
+}
+
+#counter {
+	display: inline-block;
+    font-size: 50px;
+    line-height: 1em;
+    height: 1em;
+}
+
+.divider {
+    display: inline-block;
+    float: left;
+    line-height: 1em;
+    height: 1em;
+    overflow: hidden;
+}
+
+/*
+* Handwritten by @wordsbypaul
+*/
+
+/* CSS Animations */
+
+@keyframes unit { 0% { transform: translateY(0); } 100% { transform: translateY(-60em); } }
+@-webkit-keyframes unit { 0% { -webkit-transform: translateY(0); } 100% { -webkit-transform: translateY(-60em); } }
+
+@keyframes centiseconds { 0% { transform: translateY(0); } 100% { transform: translateY(-100em); } }
+@-webkit-keyframes centiseconds { 0% { -webkit-transform: translateY(0); } 100% { -webkit-transform: translateY(-100em); } }
+
+.unit {
+    display: inline-block;
+    float: left;
+    height: 1em;
+    line-height: 1em;
+    overflow: hidden;
+}
+
+.unit:after {
+    content: "00\A 01\A 02\A 03\A 04\A 05\A 06\A 07\A 08\A 09\A 10\A 11\A 12\A 13\A 14\A 15\A 16\A 17\A 18\A 19\A 20\A 21\A 22\A 23\A 24\A 25\A 26\A 27\A 28\A 29\A 30\A 31\A 32\A 33\A 34\A 35\A 36\A 37\A 38\A 39\A 40\A 41\A 42\A 43\A 44\A 45\A 46\A 47\A 48\A 49\A 50\A 51\A 52\A 53\A 54\A 55\A 56\A 57\A 58\A 59\A";
+    position: relative;
+    white-space: pre;
+    display: inline-block;
+    animation: unit steps(60) infinite;
+    -webkit-animation: unit steps(60) infinite;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+}
+
+#hours:after {
+    animation-duration: 216000s;
+    -webkit-animation-duration: 216000s;
+}
+
+#minutes:after {
+    animation-duration: 3600s;
+    -webkit-animation-duration: 3600s;
+}
+
+#seconds:after {
+    animation-duration: 60s;
+    -webkit-animation-duration: 60s;
+}
+
+#centiseconds:after {
+    content: "00\A 01\A 02\A 03\A 04\A 05\A 06\A 07\A 08\A 09\A 10\A 11\A 12\A 13\A 14\A 15\A 16\A 17\A 18\A 19\A 20\A 21\A 22\A 23\A 24\A 25\A 26\A 27\A 28\A 29\A 30\A 31\A 32\A 33\A 34\A 35\A 36\A 37\A 38\A 39\A 40\A 41\A 42\A 43\A 44\A 45\A 46\A 47\A 48\A 49\A 50\A 51\A 52\A 53\A 54\A 55\A 56\A 57\A 58\A 59\A 60\A 61\A 62\A 63\A 64\A 65\A 66\A 67\A 68\A 69\A 70\A 71\A 72\A 73\A 74\A 75\A 76\A 77\A 78\A 79\A 80\A 81\A 82\A 83\A 84\A 85\A 86\A 87\A 88\A 89\A 90\A 91\A 92\A 93\A 94\A 95\A 96\A 97\A 98\A 99\A";
+    animation: centiseconds steps(100) infinite;
+    -webkit-animation: centiseconds steps(100) infinite;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-play-state: paused; /* chrome fix */
+}
+
+.running .unit:after {
+    animation-play-state: running!important;
+    -webkit-animation-play-state: running!important;
+}
+
+/* /*/
+
+
 #workouts th {
 	background: #464647;	
 	color: #FFF;
@@ -23,6 +180,10 @@ body {
 	padding : 10px;	
 	text-align: left;
 }
+
+/********************************
+** Footer
+********************************/
 
 #fixed-footer {
 	position: fixed;
@@ -39,7 +200,12 @@ body {
 	text-decoration: none;
 	color: #464646;
 	background: #FFF;
+	font-size: 30px;
 }
+
+/********************************
+** Buttons
+********************************/
 
 .button {
 	padding: 10px;
@@ -50,4 +216,5 @@ body {
 	border-radius: 3px;	
 	display: block;
 	margin: 0 0 10px;
+	text-decoration: none;
 }
