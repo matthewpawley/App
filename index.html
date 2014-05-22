@@ -1,173 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link href="css/animate.css" type="text/css" rel="stylesheet" />
-<link href="css/royalslider.css" type="text/css" rel="stylesheet" />
-<link href="css/layout.css" type="text/css" rel="stylesheet" />
-
-<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
-</head>
-<body>
-
-<div class="container royalSlider">
-	
-    <div id="timer" class="page selected paused">
-    	<img src="graphics/logo.png" width="200" class="logo" />
-        
+  <head>
+    <link href="css/animate.css" type="text/css" rel="stylesheet">
+    <link href="css/royalslider.css" type="text/css" rel="stylesheet">
+    <link href="css/layout.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <title>Cookridge Hall Application</title>
+  </head>
+  <body>
+    <main class="container royalSlider">
+      <section id="timer" class="page selected paused"><img src="graphics/logo.png" width="200" class="logo">
         <div class="text-align-center">
-            <p>Get started with your workout by clicking the button below, once you have completed your workout simply click the button again to save your efforts!</p>
-
-            <div id="counter">
-                <div id="hours" class="unit"></div>
-                <div class="divider">:</div>
-                <div id="minutes" class="unit"></div>
-                <div class="divider">:</div>
-                <div id="seconds" class="unit"></div>
-                <div class="divider">:</div>
-                <div id="centiseconds" class="unit"></div>
-            </div>
-        </div>
-    
-    	<a class="workout-toggle button" href="#">Start Workout</a>
-    </div>
-    
-    <div id="workouts" class="page">
-        <table id="workouts" width="100%" border="0" cellpadding="0" cellspacing="0">
-            <thead>
+          <p>Get started with your workout by clicking the button below, once you have completed your workout simply click the button again to save your efforts!</p>
+          <div id="counter">
+            <div id="hours" class="unit"></div>
+            <div class="divider">:</div>
+            <div id="minutes" class="unit"></div>
+            <div class="divider">:</div>
+            <div id="seconds" class="unit"></div>
+            <div class="divider">:</div>
+            <div id="centiseconds" class="unit"></div>
+          </div>
+        </div><a href="#" class="workout-toggle button">Start Workout</a>
+      </section>
+      <section id="workouts" class="page">
+        <header class="workout-pagination"><a href="#table" class="workout-link selected">Table</a><a href="#week-graph" class="workout-link">Week</a><a href="#month-graph" class="workout-link">Month</a><a href="#year-graph" class="workout-link">Year</a></header>
+        <div class="workouts-slider royalSlider">
+          <div id="table">
+            <table id="workouts" width="100%" border="0" cellpadding="0" cellspacing="0">
+              <thead>
                 <tr>
-                    <th>Start Time / Date</th>
-                    <th>Workout Time</th>
+                  <th>Start Time / Date</th>
+                  <th>Workout Time</th>
                 </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div id="fixed-footer">
-	<a href="#timer" class="selected link"><i class="icon-stopwatch"></i></a>
-    <a href="#workouts" class="link"><i class="icon-chart"></i></a>
-</div>
-
-<script type="text/javascript" src="js/jquery.royalslider.min.js"></script>
-<script>
-
-$(function(){
-		
-	var slider = $(".royalSlider").royalSlider({
-	
-	}).data('royalSlider');
-	
-	slider.ev.on('rsAfterSlideChange', function(event) {
-		var $slide = $(slider.currSlide.content.get(0)),
-			target = $slide.attr('id'),
-			$nav = $('#fixed-footer a[href=#' + target + ']');
-			
-		$('#fixed-footer a').removeClass('selected');
-		$nav.addClass('selected');
-	});
-	
-	$(document).on('click touchstart', '.link', function(e){
-		e.preventDefault();
-		var $this = $(this),
-			$target = $($this.attr('href')).parent(),
-			index = $target.index();
-		
-		slider.goTo(index);
-			
-		$('#fixed-footer a').removeClass('selected');
-		$('#fixed-footer a[href=' + $this.attr('href') + ']').addClass('selected');
-		
-	});
-
-	var app = {};
-	app.webdb = {};
-	app.webdb.db = null;
-	
-	app.webdb.open = function() {
-	  var dbSize = 5 * 1024 * 1024; // 5MB
-	  app.webdb.db = openDatabase("gym-tracker", "1", "Gym Tracker", dbSize);
-	}
-	
-	app.webdb.onError = function(tx, e) {
-	  alert("There has been an error: " + e.message);
-	}
-	
-	app.webdb.createTable = function() {
-	  var db = app.webdb.db;
-	  db.transaction(function(tx){
-		tx.executeSql("CREATE TABLE IF NOT EXISTS workouts(ID INTEGER PRIMARY KEY ASC, start_time DATETIME, end_time DATETIME)", []);
-	  });
-	}
-	
-	$('.workout-toggle').on('mousedown touchstart', function(e){
-		e.preventDefault();
-		app.webdb.checkRunningSession();
-	});
-	
-	app.webdb.startSession = function(tx, data) {
-		var db = app.webdb.db;
-		db.transaction(function(tx){
-			var addedOn = new Date();
-			tx.executeSql("INSERT INTO workouts(start_time) VALUES (?)", [new Date()], app.webdb.loadData, app.webdb.onError);
-		});
-		
-		$('#timer').removeClass('paused').addClass('running');
-		$('.workout-toggle').text('Stop Workout');
-	};
-	
-	app.webdb.endSession = function(tx, data) {
-		var db = app.webdb.db;
-		db.transaction(function(tx){
-			var addedOn = new Date();
-			tx.executeSql("UPDATE workouts SET end_time=?", [new Date()], app.webdb.loadData, app.webdb.onError);
-		});
-		
-		$('#timer').removeClass('running').addClass('paused');
-		$('.workout-toggle').text('Start Workout');
-	};
-	
-	app.webdb.sessionToggle = function(tx, data) {
-		(data.rows.length > 0)
-			? app.webdb.endSession()
-			: app.webdb.startSession()
-	};
-	
-	app.webdb.checkRunningSession = function(tx, r) {
-		var db = app.webdb.db;
-		db.transaction(function(tx) {
-			tx.executeSql("SELECT id FROM workouts WHERE end_time IS NULL", [], app.webdb.sessionToggle, app.webdb.onError);
-		});
-	};
-	
-	app.webdb.loadData = function(tx, r) {
-		var db = app.webdb.db;
-		db.transaction(function(tx) {
-			tx.executeSql("SELECT * FROM workouts ORDER BY start_time DESC", [], app.webdb.output, app.webdb.onError);
-		});
-	};
-	
-	app.webdb.output = function(tx, data) {
-		
-		html = '';
-		for (var i=0; i < data.rows.length; i++) {
-			var item = data.rows.item(i);
-			html += '<tr>' +
-				'<td>' + item.start_time + '</td>' +
-				'<td>' + (item.end_time ? item.end_time : 'In progress') + '</td>' +
-			'</tr>';
-		};
-		
-		$('#workouts').find('tbody').html(html);
-	};
-	
-	app.webdb.open();
-	app.webdb.createTable();
-	
-});
-</script>
-
-
-</body>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="week-graph">
+            <div id="chartdiv"></div>
+          </div>
+          <div id="month-graph">
+            Month Graph
+            
+          </div>
+          <div id="year-graph">
+            Year Graph
+            
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+  <footer id="fixed-footer"><a href="#timer" class="selected link"><i class="icon-stopwatch"></i></a><a href="#workouts" class="link"><i class="icon-chart"></i></a></footer>
+  <script type="text/javascript" src="js/jquery.royalslider.min.js"></script>
+  <script type="text/javascript" src="js/min/amcharts.min.js"></script>
+  <script type="text/javascript" src="js/min/amcharts.serial.min.js"></script>
+  <script type="text/javascript" src="js/min/amcharts.theme.light.min.js"></script>
+  <script type="text/javascript" src="js/min/common.min.js"></script>
 </html>

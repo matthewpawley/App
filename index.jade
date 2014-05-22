@@ -1,0 +1,67 @@
+doctype html
+html
+    head
+        - files = ["animate.css", "royalslider.css", "layout.css"]
+        each css in files
+            link(href="css/" + css, type="text/css", rel="stylesheet")
+
+        script(type="text/javascript", src="js/jquery-2.1.0.min.js")
+        title Cookridge Hall Application
+    body
+        main.container.royalSlider
+
+            section#timer.page.selected.paused
+                img.logo(src="graphics/logo.png", width="200")
+
+                div.text-align-center
+                    p Get started with your workout by clicking the button below, once you have completed your workout simply click the button again to save your efforts!
+
+                    div#counter
+                        div#hours.unit
+                        div.divider :
+                        div#minutes.unit
+                        div.divider :
+                        div#seconds.unit
+                        div.divider :
+                        div#centiseconds.unit
+
+                a.workout-toggle.button(href="#") Start Workout
+
+            section#workouts.page
+
+                header.workout-pagination
+                    a.workout-link.selected(href="#table") Table
+                    a.workout-link(href="#week-graph") Week
+                    a.workout-link(href="#month-graph") Month
+                    a.workout-link(href="#year-graph") Year
+
+
+                div.workouts-slider.royalSlider
+                    div#table
+                        table#workouts(width="100%", border="0", cellpadding="0", cellspacing="0")
+                            thead
+                                tr
+                                    th Start Time / Date
+                                    th Workout Time
+                            tbody
+
+                    div#week-graph
+                        div#chartdiv
+
+                    div#month-graph.
+                        Month Graph
+
+                    div#year-graph.
+                        Year Graph
+
+    footer#fixed-footer
+        a.selected.link(href="#timer"): i.icon-stopwatch
+        a.link(href="#workouts"): i.icon-chart
+
+    - files = ["jquery.royalslider.min.js", "min/amcharts.min.js", "min/amcharts.serial.min.js", "min/amcharts.theme.light.min.js", "min/common.min.js"]
+    each js in files
+        script(type="text/javascript", src="js/" + js)
+
+
+
+
